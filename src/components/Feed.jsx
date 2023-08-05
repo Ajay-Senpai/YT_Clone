@@ -11,12 +11,12 @@ const Feed = () => {
   const [videos, setVideos] = useState([]);
  
   useEffect(()  => {
-      fetchFromAPI(`captions?part=snippet&q=${selectedCategory}`).then((data) =>setVideos(data.items))
+      fetchFromAPI(`captions?part=snippet&q=${selectedCategory}`).then((data) =>setVideos(data?.items || []))
   }, [selectedCategory]);
 
   return (
     <Stack sx={{ flexDirection: {sx: "column", md: "row" }}}>
-      <Box sx= {{ height: { sx: 'auto', md: "92vh" }, borderRight: '1px solid #3d3d3d', px: { sx:0, md:2 }}}>
+      <Box sx= {{ height: { sx: 'auto', md: "92vh" }, borderRight: '1px solid #3d3d3d', px: { sx:0, md:2 },backgroundColor: 'black'}}>
          <Sidebar
           selectedCategory ={selectedCategory}
           setSelectedCategory ={setSelectedCategory}
@@ -31,8 +31,7 @@ const Feed = () => {
         fontWeight="bold" mb={2} sx={{ color: 'white' }} >
           {selectedCategory} <span style= {{ color: '#F31503' }} >videos</span>
         </Typography>
-
-        <Videos video ={videos} />
+        {videos && videos.length > 0 ? <Videos videos={videos} /> : null}
       </Box>
     </Stack>
   )
